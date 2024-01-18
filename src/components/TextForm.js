@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 export default function TextForm(props) {
+
   const [text, setText] = useState("");
   const handleUpClick = () => {
     const newText = text.toUpperCase();
@@ -16,8 +17,8 @@ export default function TextForm(props) {
     console.log("I am Copy");
     var text = document.getElementById("myBox");
     text.select();
-    text.setSelectionRange(0, 9999);
     navigator.clipboard.writeText(text.value);
+    document.getSelection().removeAllRanges(); // once we copy the text it will deselect i.e highlight nhi hoga
     props.showAlert("Copied to Clipboard", "success");
   };
   const handleChange = (event) => {
@@ -31,7 +32,7 @@ export default function TextForm(props) {
         className="container"
         style={{ color: props.mode === "dark" ? "white" : "black" }}
       >
-        <h1>{props.heading}</h1>
+        <h1 className="mb-2">{props.heading}</h1>
         <div className="form-group">
           <textarea
             onChange={handleChange}
@@ -40,18 +41,18 @@ export default function TextForm(props) {
             rows="8"
             value={text}
             style={{
-              backgroundColor: props.mode === "dark" ? "grey" : "white",
+              backgroundColor: props.mode === "dark" ? "#13466e" : "white",
               color: props.mode === "dark" ? "white" : "black",
             }}
           ></textarea>
         </div>
-        <button className="btn btn-primary mx-2" onClick={handleUpClick}>
+        <button disabled={text.length === 0} className="btn btn-primary mx-2 my-1" onClick={handleUpClick}>
           Convert To Uppercase
         </button>
-        <button className="btn btn-primary mx-2" onClick={handleLoClick}>
+        <button disabled={text.length === 0}  className="btn btn-primary mx-2 my-1" onClick={handleLoClick}>
           Convert To Lowercase
         </button>
-        <button className="btn btn-primary mx-2" onClick={handleCopy}>
+        <button  disabled={text.length === 0}  className="btn btn-primary mx-2 my-1" onClick={handleCopy}>
           Copy Text
         </button>
       </div>
@@ -59,13 +60,14 @@ export default function TextForm(props) {
         className="container my-2"
         style={{ color: props.mode === "dark" ? "white" : "black" }}
       >
-        <h1>Your Text Summary</h1>
-        <p>
-          {text.split(" ").length} words and {text.length} characters
+        <h2>Your Text Summary</h2>
+        <p> 
+        {/* filter resolves the blank array issue earlier space was considered as a word but not anymore */}
+          {text.split(" ").filter((element)=>{return element.length!==0}).length} words and {text.length} characters
         </p>
-        <p>{0.008 * text.split(" ").length} minutes read</p>
+        <p>{0.008 * text.split(" ").filter((element)=>{return element.length!==0}).length} minutes read</p>
         <h2>Preview</h2>
-        <p>{text.length > 0 ? text : "Enter Something to Preview.."}</p>
+        <p>{text.length > 0 ? text : "Nothing to preview"}</p>
       </div>
     </>
   );

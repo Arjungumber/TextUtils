@@ -1,35 +1,21 @@
-import React,{useState} from "react";
+import React from "react";
 
-export default function About() {
+export default function About(props) {
+  // const [myStyle, setMyStyle] = useState({
+  //   color: "Black",
+  //   backgroundColor: "White",
+  // });
 
-  const [myStyle,setMyStyle] = useState({
-    color:'Black',
-    backgroundColor:'White'
-    });
-
-  const[btnText,setbtnText] = useState("Enable dark mode");
-
-  const handleClick = () =>{
-    if(myStyle.color === 'Black'){
-      setMyStyle({
-        color:'White',
-        backgroundColor:"Black"
-      })
-      setbtnText("Back To Normal");
-    } else{
-      setMyStyle({
-        color:'Black',
-        backgroundColor:"White"
-      })
-      setbtnText("Enable Dark Mode");
-    }
-  }
+  let myStyle = {
+    color :props.mode ==='dark' ? 'white' : '#042743',
+  backgroundColor : props.mode ==='dark' ? '#042743' :  'white',
+  };
 
   return (
-    <div className="container" style={myStyle}>
-    <h1>About Us</h1>
+    <div className="container">
+      <h1 className="mty-3" style={{color:props.mode ==='dark' ? 'white' : '#042743'}}>About Us</h1>
       <div className="accordion" id="accordionExample">
-        <div className="accordion-item" style={myStyle}>
+        <div className="accordion-item">
           <h2 className="accordion-header">
             <button
               className="accordion-button"
@@ -60,7 +46,7 @@ export default function About() {
             </div>
           </div>
         </div>
-        <div className="accordion-item" style={myStyle}>
+        <div className="accordion-item">
           <h2 className="accordion-header">
             <button
               className="accordion-button collapsed"
@@ -91,7 +77,7 @@ export default function About() {
             </div>
           </div>
         </div>
-        <div className="accordion-item" style={myStyle}>
+        <div className="accordion-item">
           <h2 className="accordion-header">
             <button
               className="accordion-button collapsed"
@@ -122,9 +108,6 @@ export default function About() {
             </div>
           </div>
         </div>
-      </div>
-      <div className="conatiner my-3">
-      <button type="button" onClick={handleClick} className="btn btn-primary">{btnText}</button>
       </div>
     </div>
   );
